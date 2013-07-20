@@ -1,0 +1,23 @@
+* Probably going to use genetic algorithms
+* develop a chromosome class to store an arbitrary number of alleles, and allow for generic mutation and crossing
+* chromosome structure is function for each allele, multiplied by a weighting factor.
+** Make sure that it is easy to represent the past history of a variable, so we can FIR that shit.
+** alleles to consider:
++ current food
++ M (food goal bonus)
++ number of players 
++ average rep of pool
++ round number (relative to chromosome age?)
++ pools average food store based on past history of rep.
++ number of hunters for each of last n rounds
++ number hunted last round
+* mebbe simulate tournaments?
+* handcoded agents?
+** when you have two players, perfect knowledge allows for interesting techniques
+** FIRAgent
+** IIRAgent
+** Viterbi codes and hidden markov
+* average rep of pool gives idea of pool 'mood'
+* modify simulator to be controllable via arguments.
+* housekeeping
+  coding style (use google)
