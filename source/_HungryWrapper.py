@@ -25,5 +25,5 @@ class _HungryWrapper:
         else: self.currentFood -= 2
         
     def formatName(self):
-        splitName = str(self.agent).split()[0].split('.')[0]
+        splitName = str(self.agent).split()[0].split('.')[0][1:]
         return str(splitName)

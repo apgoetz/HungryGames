@@ -1,13 +1,16 @@
 from _HungryWrapper import _HungryWrapper
 import random
 import importlib
+import argparse
+
 '''
 Gotta have something to simulate a game if we want to test our shit!
 '''
 class HungrySimulator:
-    def __init__(self):
-        self.listOfPlayers = [] #contains player agents
+    def __init__(self,listOfAgents,defcon=0):
+        self.listOfPlayers = self.prepareGame(listOfAgents)                        
         self.currentRound = 1
+        self.defcon = defcon
         self.M = 0
         self.hCount = 0
         self.deadLog = []
@@ -15,8 +18,10 @@ class HungrySimulator:
     #Gives out initial food and sets up all the players.    
     def prepareGame(self,listOfPlayers):
         startingFood = 300*(len(listOfPlayers)-1)
+        tempList = []
         for index, player in enumerate(listOfPlayers):
-            self.listOfPlayers.append(_HungryWrapper(player,startingFood,index))
+            tempList.append(_HungryWrapper(player,startingFood,index)) 
+        return tempList
     
     #Plays a round.        
     def playRound(self):
@@ -58,7 +63,7 @@ class HungrySimulator:
             player.calculateCurrentRep() 
             player.currentFood += (sum(player.currentFoodEarnings) + award)
             player.agent.round_end(award,self.M,self.hCount)
-            print player.name + ' Total Food ' + str(player.currentFood) + ' Current Rep ' + '%.2f' % player.currentRep
+            self.debug_message(3,player.name + ' Total Food ' + str(player.currentFood) + ' Current Rep ' + '%.2f' % player.currentRep)
         
         #BRING OUT YA DEAAAAAAAAD
         self.removeDeadPlayers()
@@ -142,6 +147,10 @@ class HungrySimulator:
     def updatePlayerIds(self):
         for index,player in enumerate(self.listOfPlayers):
             player.agentId = index
+    # 
+    def debug_message(self,debugLevel,message):
+        if debugLevel <= self.defcon:
+            print debugLevel, message
 
 def makeAgents(module_name, count = 1):
     objs = list()
@@ -159,25 +168,31 @@ def makeAgents(module_name, count = 1):
         raise
     return objs
 
+def list_to_tuple(listToTuple):
+    return zip(listToTuple[0::2], listToTuple[1::2])
+   
+def main():    
+    parser = argparse.ArgumentParser(description='Inputs for the simulator')
+    parser.add_argument('agents',action='store',nargs='*', help='put agents and ')
+    parser.add_argument('-d','--defcon',type=int,choices=[0,1,2,3,4],nargs='?',help='setting warning level')
     
-def main():
-    playerList = list()
-    playerList.extend(makeAgents('alternativeAgent',2))
-    playerList.extend(makeAgents('hungryAgent'))
-    playerList.extend(makeAgents('randomAgent', 10))
-    simulator = HungrySimulator()
-    simulator.prepareGame(playerList)
+    args = parser.parse_args()    
+    #agentsList = listToTuple(args.agents)
     
+    player_list = []
+    for agent in list_to_tuple(args.agents):
+        player_list.extend(makeAgents(agent[0],int(agent[1])))    
+       
+    simulator = HungrySimulator(player_list,args.defcon)
+
     for round in range(500):
-        print 'Round ' + str(round)
         simulator.playRound()
-        print '\n'
         
         if not simulator.listOfPlayers or len(simulator.listOfPlayers) == 1:
             break
         
     for entry in simulator.deadLog:
         print entry[0] + ' died in round ' + entry[1]
-        
+
 if __name__ == "__main__":
     main()
