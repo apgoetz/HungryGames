@@ -2,6 +2,7 @@ from alternativeAgent import AlternativeAgent
 from slackerAgent import SlackerAgent
 from hunterAgent import HunterAgent
 from hungryAgent import HungryAgent
+from randomAgent import randomAgent
 from _HungryWrapper import _HungryWrapper
 import random
 
@@ -148,7 +149,7 @@ class HungrySimulator:
             player.agentId = index
     
 def main():
-    playerList = (AlternativeAgent(),AlternativeAgent(),HungryAgent())    
+    playerList = (AlternativeAgent(),AlternativeAgent(),HungryAgent(), randomAgent())
     simulator = HungrySimulator()
     simulator.prepareGame(playerList)
     
