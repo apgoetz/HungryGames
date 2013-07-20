@@ -1,0 +1,1 @@
+Solution to brilliant.com's hunger games problem
