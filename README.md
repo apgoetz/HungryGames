@@ -1,1 +1,1 @@
-Solution to brilliant.com's hunger games problem
+I'm hungry for games.
