@@ -12,7 +12,7 @@ my_variable = 0 # Example optional module variable
 '''
 YOUR CODE HERE
 '''
-class HungryAgent:
+class Player:
     def hunt_choices(self,round_number, current_food, current_reputation, m,  player_reputations):
         hunt_decisions = []
         

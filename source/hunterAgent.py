@@ -1,5 +1,5 @@
 #Sample code from site.
-class HunterAgent:
+class Player:
     def hunt_choices(self,round_number, current_food, current_reputation, m, 
                 player_reputations):
     

@@ -1,5 +1,5 @@
 ##Sample code from site.
-class AlternativeAgent:
+class Player:
     def __init__(self):
         self.last_played = 's'
     

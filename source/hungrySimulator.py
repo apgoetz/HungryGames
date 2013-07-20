@@ -1,11 +1,6 @@
-from alternativeAgent import AlternativeAgent
-from slackerAgent import SlackerAgent
-from hunterAgent import HunterAgent
-from hungryAgent import HungryAgent
-from randomAgent import randomAgent
 from _HungryWrapper import _HungryWrapper
 import random
-
+import importlib
 '''
 Gotta have something to simulate a game if we want to test our shit!
 '''
@@ -147,13 +142,33 @@ class HungrySimulator:
     def updatePlayerIds(self):
         for index,player in enumerate(self.listOfPlayers):
             player.agentId = index
+
+def makeAgents(module_name, count = 1):
+    objs = list()
+    try:
+        user_module = importlib.import_module(module_name)
+        if hasattr(user_module, 'Player'):
+            try:
+                for i in range(0,count):
+                    objs.append(user_module.Player())
+            except:
+                print("\nPlayer did not instantiate, make sure it is a class. "
+                      "Proceeding assuming non OO code.\n")
+    except:
+        print ("\nCould not import %s\n" % module_name)
+        raise
+    return objs
+
     
 def main():
-    playerList = (AlternativeAgent(),AlternativeAgent(),HungryAgent(), randomAgent())
+    playerList = list()
+    playerList.extend(makeAgents('alternativeAgent',2))
+    playerList.extend(makeAgents('hungryAgent'))
+    playerList.extend(makeAgents('randomAgent', 10))
     simulator = HungrySimulator()
     simulator.prepareGame(playerList)
     
-    for round in range(100):
+    for round in range(500):
         print 'Round ' + str(round)
         simulator.playRound()
         print '\n'

@@ -2,7 +2,7 @@
 #
 # Picks solution randomly
 from random import choice
-class randomAgent:
+class Player:
     def hunt_choices(self,round_number, current_food, current_reputation, m,
                 player_reputations):    
         hunt_decisions = list()
